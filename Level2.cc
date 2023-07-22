@@ -4,9 +4,7 @@
 
 using namespace std;
 
-Level2::Level2(Board* b, char c) {
-
-}
+Level2::Level2(Board* b, char c) : Player{b, c} {}
 
 vector<pair<int,int>> Level2::getMove() {
     

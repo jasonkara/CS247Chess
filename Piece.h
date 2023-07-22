@@ -19,6 +19,7 @@ class Piece {
 		vector<pair<int,int>> checkHorizontal();
 		vector<pair<int,int>> checkVertical();
 		vector<pair<int,int>> checkDiagonal();
+		Piece(Board* b, int x, int y, char c);
 	public:
 		virtual vector<tuple<int,int,Piece*>> validMoves() = 0; // Pure virtual - this is an abstract class
 		pair<int,int> getPosition();
