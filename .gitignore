@@ -1,4 +1,2 @@
-
-*.o
-chess.exe
+/build
 .vscode/settings.json
