@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Piece::Piece(Board* b, int x, int y, char c) : board{b}, colour{c}, position{make_pair(x, y)} {}
+Piece::Piece(Board* b, int x, int y, char c) : board{b}, position{make_pair(x, y)}, colour{c} {}
 
 vector<pair<int,int>> Piece::checkHorizontal() {
 

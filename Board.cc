@@ -36,7 +36,7 @@ void Board::makePawns(int y, char c) {
 	row.clear();
 }
 
-Board::Board() : width{8}, height{8}, currentPlayer{'w'} {
+Board::Board() : currentPlayer{'w'}, width{8}, height{8} {
 	// row 1 - assorted white pieces
 	makeRow(0, 'w');
 	// row 2 - white pawns
