@@ -18,6 +18,8 @@ class Board {
 	int height;
 	public:
 		Board();
+		void makeRow(int y, char c);
+		void makePawns(int y, char c);
 		void move(int oldX, int oldY, int newX, int newY);
 		void addPiece(int x, int y, char type);
 		void removePiece(int x, int y);

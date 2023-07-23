@@ -2,7 +2,7 @@ chess: chess.o Board.o Piece.o Bishop.o King.o Knight.o Pawn.o Queen.o Rook.o Pl
 	g++ chess.o Board.o Piece.o Bishop.o King.o Knight.o Pawn.o Queen.o Rook.o Player.o Human.o Level1.o Level2.o Level3.o Level4.o -o chess
 chess.o: chess.cc Board.h Player.h Human.h Level1.h Level2.h Level3.h Level4.h Piece.h Bishop.h King.h Knight.h Pawn.h Queen.h Rook.h 
 	g++ -std=c++14 chess.cc -c
-Board.o: Board.cc Board.h 
+Board.o: Board.cc Board.h Rook.h Pawn.h King.h Queen.h Knight.h Bishop.h
 	g++ -std=c++14 Board.cc -c
 Piece.o: Piece.cc Piece.h
 	g++ -std=c++14 Piece.cc -c 
