@@ -26,6 +26,8 @@ class Board {
 		friend ostream& operator<<(ostream& o, const Board& b);
 		char getCurrentPlayer();
 		void setCurrentPlayer(char c);
+		int getWidth() const;
+		int getHeight() const;
 		vector<vector<unique_ptr<Piece>>>& getLayout();
 };
 

@@ -80,6 +80,14 @@ void Board::setCurrentPlayer(char c) {
     currentPlayer = c;
 }
 
+int Board::getWidth() const {
+	return width;
+}
+
+int Board::getHeight() const {
+	return height;
+}
+
 vector<vector<unique_ptr<Piece>>>& Board::getLayout() {
 	return layout;
 }
