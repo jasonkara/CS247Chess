@@ -4,10 +4,12 @@
 
 using namespace std;
 
-char Player::getColour() {
+Player::Player(Board* b, char c) : board{b}, colour{c} {}
 
+char Player::getColour() {
+    return colour;
 }
 
 void Player::setColour(char c) {
-	
+	colour = c;
 }

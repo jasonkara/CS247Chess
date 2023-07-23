@@ -4,9 +4,7 @@
 
 using namespace std;
 
-Queen::Queen(Board* b, int x, int y, char c) {
-
-}
+Queen::Queen(Board* b, int x, int y, char c) : Piece{b, x, y, c} {}
 
 vector<tuple<int,int,Piece*>> Queen::validMoves() {
     

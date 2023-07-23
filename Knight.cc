@@ -4,9 +4,7 @@
 
 using namespace std;
 
-Knight::Knight(Board* b, int x, int y, char c) {
-
-}
+Knight::Knight(Board* b, int x, int y, char c) : Piece{b, x, y, c} {}
 
 vector<tuple<int,int,Piece*>> Knight::validMoves() {
     
