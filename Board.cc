@@ -30,7 +30,7 @@ void Board::makeRow(int y, char c) {
 void Board::makePawns(int y, char c) {
 	vector<unique_ptr<Piece>> row;
 	for (int i = 0; i < 8; i ++) {
-		row.push_back(std::move(unique_ptr<Piece>(new Rook{this, i, y, c})));
+		row.push_back(std::move(unique_ptr<Piece>(new Pawn{this, i, y, c})));
 	}
 	layout.push_back(std::move(row));
 	row.clear();
@@ -61,22 +61,38 @@ void Board::move(int oldX, int oldY, int newX, int newY) {
 }
 
 void Board::addPiece(int x, int y, char type) {
-
+	char colour = (type > 96) ? 'b' : 'w';
+	type = tolower(type);
+	if (type == 'p') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Pawn(this, x, y, colour)));
+	} else if (type == 'r') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Rook(this, x, y, colour)));
+	} else if (type == 'n') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Knight(this, x, y, colour)));
+	} else if (type == 'b') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Bishop(this, x, y, colour)));
+	} else if (type == 'q') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Queen(this, x, y, colour)));
+	} else if (type == 'k') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new King(this, x, y, colour)));
+	} else {
+		cout << "Invalid piece type\n";
+	}
 }
 
 void Board::removePiece(int x, int y) {
-
+	layout.at(y).at(x) = std::move(unique_ptr<Piece>(nullptr));
 }
 
 ostream& operator<<(ostream& out, const Board& b) {
-	for (int i = b.height - 1; i >= 0; i++) { // from top to bottom
+	for (int i = b.height - 1; i >= 0; i--) { // from top to bottom
 		const vector<unique_ptr<Piece>>& row = b.layout[i];
 		for (int j = 0; j < b.width; j++) {
 			const unique_ptr<Piece>& p = b.layout[i][j];
 			if (p.get() != nullptr) { // if piece exists
 				out << p.get()->getLetter();
 			} else { // if piece doesn't exist, create checkboard pattern
-				out << (i+j % 2 == 0 ? '_' : ' '); 
+				out << ((i+j) % 2 == 0 ? '_' : ' '); 
 			}
 		}
 		out << '\n';
