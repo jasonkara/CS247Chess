@@ -73,6 +73,6 @@ int main() {
 		} else if (cmd == "move") {
 			// TODO
 		}
-		// cout << b; // output text representation of board
+		cout << b; // output text representation of board
 	}
 }

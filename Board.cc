@@ -69,14 +69,14 @@ void Board::removePiece(int x, int y) {
 }
 
 ostream& operator<<(ostream& out, const Board& b) {
-	for (int i = b.height - 1; i >= 0; i++) { // from top to bottom
+	for (int i = b.height - 1; i >= 0; i--) { // from top to bottom
 		const vector<unique_ptr<Piece>>& row = b.layout[i];
 		for (int j = 0; j < b.width; j++) {
 			const unique_ptr<Piece>& p = b.layout[i][j];
 			if (p.get() != nullptr) { // if piece exists
 				out << p.get()->getLetter();
 			} else { // if piece doesn't exist, create checkboard pattern
-				out << (i+j % 2 == 0 ? '_' : ' '); 
+				out << ((i+j) % 2 == 0 ? '_' : ' '); 
 			}
 		}
 		out << '\n';
