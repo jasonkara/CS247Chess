@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Rook::Rook(Board* b, int x, int y, char c) : Piece{b, x, y, c} {}
+Rook::Rook(Board* b, int x, int y, char c) : Piece{b, x, y, c, 'R'} {}
 
 vector<tuple<int,int,Piece*>> Rook::validMoves() {
     

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Piece::Piece(Board* b, int x, int y, char c) : board{b}, position{make_pair(x, y)}, colour{c} {}
+Piece::Piece(Board* b, int x, int y, char c, char l) : board{b}, position{make_pair(x, y)}, colour{c}, letter{l} { }
 
 // TODO: there is probably a better way to do this
 
@@ -74,7 +74,7 @@ vector<pair<int,int>> Piece::checkDiagonal() {
     }
 }
 
-pair<int,int> Piece::getPosition() {
+pair<int,int> Piece::getPosition() const {
     return position;
 }
 
@@ -82,7 +82,7 @@ void Piece::setPosition(int x, int y) {
     position = make_pair(x, y);
 }
 
-char Piece::getColour() {
+char Piece::getColour() const {
     return colour;
 }
 
