@@ -23,7 +23,7 @@ class Board {
 		void move(int oldX, int oldY, int newX, int newY);
 		void addPiece(int x, int y, char type);
 		void removePiece(int x, int y);
-		friend ostream& operator<<(ostream& o, const Board& b);
+		friend ostream& operator<<(ostream& out, const Board& b);
 		char getCurrentPlayer();
 		void setCurrentPlayer(char c);
 		int getWidth() const;
