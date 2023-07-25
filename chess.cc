@@ -36,11 +36,14 @@ void playerSetup(unique_ptr<Player>& p, string type, Board *b, char c) {
 int main() {
     string cmd;
 	unique_ptr<Player> white, black;
-	Board b = Board{};
+	float whiteScore = 0;
+	float blackScore = 0;
+	unique_ptr<Board> b;
 
 	while (cin >> cmd && cmd != "quit") {
 		if (cmd == "setup") {
 			cout << "You have entered setup mode.\n";
+			b = unique_ptr<Board>(new Board{});
 			bool done = false;
 			while (!done && cin >> cmd) {
 				char second, third, fourth;
@@ -48,8 +51,8 @@ int main() {
 					cin >> second >> third >> fourth;
 					int x = tolower(third) - 97;
 					int y = fourth - 49;
-					if (x >= 0 && x < b.getWidth() && y >= 0 && y < b.getHeight()) {
-						b.addPiece(x, y, second);
+					if (x >= 0 && x < b->getWidth() && y >= 0 && y < b->getHeight()) {
+						b->addPiece(x, y, second);
 						cout << "Added " << second << " piece at " << third << fourth << endl;
 					} else {
 						cout << "Invalid coordinate\n";
@@ -58,8 +61,8 @@ int main() {
 					cin >> second >> third;
 					int x = tolower(second) - 97;
 					int y = third - 49;
-					if (x >= 0 && x < b.getWidth() && y >= 0 && y < b.getHeight()) {
-						b.removePiece(x, y);
+					if (x >= 0 && x < b->getWidth() && y >= 0 && y < b->getHeight()) {
+						b->removePiece(x, y);
 						cout << "Removed piece at " << second << third << '\n';
 					} else {
 						cout << "Invalid coordinate\n";
@@ -70,23 +73,23 @@ int main() {
 					if (second != 'b' && second != 'w') {
 						cout << "Invalid colour\n";
 					} else {
-						b.setCurrentPlayer(second);
-						cout << "Changing colour to: " << b.getCurrentPlayer() << '\n';
+						b->setCurrentPlayer(second);
+						cout << "Changing colour to: " << b->getCurrentPlayer() << '\n';
 					}
 				} else if (cmd == "done") {
 					// check that board is in an acceptable state
 					int wKing = 0;
 					int bKing = 0;
 					bool stopCheck = false;
-					for (int i = 0; i < b.getHeight(); i ++) {
-						for (int j = 0; j < b.getWidth() && !stopCheck; j ++) {
-							const unique_ptr<Piece>& p = b.getLayout()[i][j];
+					for (int i = 0; i < b->getHeight(); i ++) {
+						for (int j = 0; j < b->getWidth() && !stopCheck; j ++) {
+							const unique_ptr<Piece>& p = b->getLayout()[i][j];
 							if (p.get()) { // only check if the piece actually exists
 								if (p.get()->getLetter() == 'K') {
 									wKing ++;
 								} else if (p.get()->getLetter() == 'k') {
 									bKing ++;
-								} else if (tolower(p.get()->getLetter()) == 'p' && (i == 0 || i == b.getHeight() - 1)) {
+								} else if (tolower(p.get()->getLetter()) == 'p' && (i == 0 || i == b->getHeight() - 1)) {
 									// pawn in the first or last row of the board
 									stopCheck = true;
 								}
@@ -106,14 +109,33 @@ int main() {
 		} else if (cmd == "game") {
 			string type1, type2;
 			cin >> type1 >> type2;
-			playerSetup(white, type1, &b, 'w');
-			playerSetup(black, type2, &b, 'b');
-			b = Board{};
+			// start a new game
+			b = unique_ptr<Board>(new Board{});
+			playerSetup(white, type1, b.get(), 'w');
+			playerSetup(black, type2, b.get(), 'b');
 		} else if (cmd == "resign") {
-			// TODO
+			// award a point to the other player
+			if (b->getCurrentPlayer() == 'w') {
+				blackScore += 1;
+			} else {
+				whiteScore += 1;
+			}
+			// end the game
+			b = unique_ptr<Board>(nullptr);
 		} else if (cmd == "move") {
-			// TODO
+			if (b.get() == nullptr || white.get() == nullptr) {
+				cout << "Please start a new game\n";
+			} else {
+				if (b->getCurrentPlayer() == 'w') {
+					white->getMove();
+					b->setCurrentPlayer('b');
+				} else {
+					black->getMove();
+					b->setCurrentPlayer('w');
+				}
+			}
+			// TODO - updating scores on checkmate/stalemate
 		}
-		cout << b; // output text representation of board
+		cout << *(b.get()); // output text representation of board
 	}
 }
