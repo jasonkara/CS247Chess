@@ -10,7 +10,7 @@ using namespace std;
 class Pawn : public Piece {
 	public:
 		Pawn(Board* b, int x, int y, char c);
-		vector<tuple<int,int,Piece*>> validMoves();
+		vector<pair<int,int>> getValidMoves() override;
 };
 
 #endif
