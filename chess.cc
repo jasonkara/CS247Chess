@@ -41,7 +41,8 @@ int main() {
 	while (cin >> cmd && cmd != "quit") {
 		if (cmd == "setup") {
 			cout << "You have entered setup mode.\n";
-			while (cin >> cmd && cmd != "done") {
+			bool done = false;
+			while (!done && cin >> cmd) {
 				char second, third, fourth;
 				if (cmd == "+") {
 					cin >> second >> third >> fourth;
@@ -71,6 +72,34 @@ int main() {
 					} else {
 						b.setCurrentPlayer(second);
 						cout << "Changing colour to: " << b.getCurrentPlayer() << '\n';
+					}
+				} else if (cmd == "done") {
+					// check that board is in an acceptable state
+					int wKing = 0;
+					int bKing = 0;
+					bool stopCheck = false;
+					for (int i = 0; i < b.getHeight(); i ++) {
+						for (int j = 0; j < b.getWidth() && !stopCheck; j ++) {
+							const unique_ptr<Piece>& p = b.getLayout()[i][j];
+							if (p.get()) { // only check if the piece actually exists
+								if (p.get()->getLetter() == 'K') {
+									wKing ++;
+								} else if (p.get()->getLetter() == 'k') {
+									bKing ++;
+								} else if (tolower(p.get()->getLetter()) == 'p' && (i == 0 || i == b.getHeight() - 1)) {
+									// pawn in the first or last row of the board
+									stopCheck = true;
+								}
+								// TODO - check that kings are not in check
+							}
+						}
+					}
+					if (stopCheck) {
+						cout << "Please remove all pawns from the first and last row of the board before proceeding.\n";
+					} else if (wKing != 1 || bKing != 1) {
+						cout << "Please ensure there is 1 of each colour of king before proceeding.\n";
+					} else {
+						done = true;
 					}
 				}
 			}
