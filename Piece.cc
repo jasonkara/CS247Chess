@@ -6,7 +6,15 @@
 
 using namespace std;
 
-Piece::Piece(Board* b, int x, int y, char c, char l) : board{b}, position{make_pair(x, y)}, colour{c}, letter{l} { }
+Piece::Piece(Board* b, int x, int y, char c, char l) : board{b}, position{make_pair(x, y)}, colour{c} { 
+	// if the colour of the piece is black, the letter should be lowercase
+	// if the colour of the piece is white, the letter should be uppercase
+	if (tolower(c) == 'b') {
+		letter = tolower(l);
+	} else {
+		letter = toupper(l);
+	}
+}
 
 // TODO: there is probably a better way to do this
 

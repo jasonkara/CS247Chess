@@ -17,50 +17,62 @@
 
 using namespace std;
 
+void playerSetup(unique_ptr<Player>& p, string type, Board *b, char c) {
+	if (type.substr(0,8) == "computer") {
+		if (type.at(8) == '1') {
+			p = unique_ptr<Player>(new Level1{b, c});
+		} else if (type.at(8) == '2') {
+			p = unique_ptr<Player>(new Level2{b, c});
+		} else if (type.at(8) == '3') {
+			p = unique_ptr<Player>(new Level3{b, c});
+		} else {
+			p = unique_ptr<Player>(new Level4{b, c});
+		}
+	} else {
+		p = unique_ptr<Player>(new Human{b, c});
+	}
+}
+
 int main() {
     string cmd;
+	unique_ptr<Player> white, black;
+	Board b = Board{};
 
-    cin >> cmd;
-    // TODO: fill in setup skeleton structure
-    if (cmd == "setup") {
-        cout << "You have entered setup mode.\n";
-        char setup_action;
-        while (cin >> setup_action && cmd != "done") {
-            char second;
-            char third;
-            switch (setup_action) {
-                case '+':
-                    cin >> second >> third;
-                    switch (second) {
-                        case 'P':
-                            cout << "created pawn\n";
-                            break;
-                        case 'N':
-                            cout << "created knight\n";
-                            break;
-                        case 'B':
-                            cout << "created bishop\n";
-                            break;
-                        case 'R':
-                            cout << "created rook\n";
-                            break;
-                        case 'Q':
-                            cout << "created queen\n";
-                            break;
-                        case 'K':
-                            cout << "created king" << endl;
-                            break;
-                    }
-                    break;
-                case '-':
-                    cin >> second;
-                    cout << "remove " << second << '\n';
-                    break;
-                case '=':
-                    cin >> second;
-                    cout << "change colour to: " << second << '\n';
-                    break;
-            }
-        }
-    }
+	while (cin >> cmd && cmd != "quit") {
+		if (cmd == "setup") {
+			cout << "You have entered setup mode.\n";
+			while (cin >> cmd && cmd != "done") {
+				char second, third, fourth;
+				if (cmd == "+") {
+					cin >> second >> third >> fourth;
+					b.addPiece(tolower(third) - 97, fourth - 49, second);
+					cout << "Added " << second << " piece at " << third << fourth << endl;
+				} else if (cmd == "-") {
+					cin >> second >> third;
+					b.removePiece(tolower(second) - 97, third - 49);
+					cout << "Removed piece at " << second << third << '\n';
+				} else if (cmd == "=") {
+					cin >> second;
+					second = tolower(second);
+					if (second != 'b' && second != 'w') {
+						cout << "Invalid colour\n";
+					} else {
+						b.setCurrentPlayer(second);
+						cout << "Changing colour to: " << b.getCurrentPlayer() << '\n';
+					}
+				}
+			}
+		} else if (cmd == "game") {
+			string type1, type2;
+			cin >> type1 >> type2;
+			playerSetup(white, type1, &b, 'w');
+			playerSetup(black, type2, &b, 'b');
+			b = Board{};
+		} else if (cmd == "resign") {
+			// TODO
+		} else if (cmd == "move") {
+			// TODO
+		}
+		// cout << b; // output text representation of board
+	}
 }

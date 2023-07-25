@@ -30,7 +30,7 @@ void Board::makeRow(int y, char c) {
 void Board::makePawns(int y, char c) {
 	vector<unique_ptr<Piece>> row;
 	for (int i = 0; i < 8; i ++) {
-		row.push_back(std::move(unique_ptr<Piece>(new Rook{this, i, y, c})));
+		row.push_back(std::move(unique_ptr<Piece>(new Pawn{this, i, y, c})));
 	}
 	layout.push_back(std::move(row));
 	row.clear();
@@ -61,7 +61,7 @@ void Board::move(int oldX, int oldY, int newX, int newY) {
 }
 
 void Board::addPiece(int x, int y, char type) {
-
+	
 }
 
 void Board::removePiece(int x, int y) {
