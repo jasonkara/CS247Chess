@@ -86,6 +86,10 @@ char Piece::getColour() const {
     return colour;
 }
 
+char Piece::getLetter() const {
+    return letter;
+}
+
 void Piece::setColour(char c) {
     colour = c;
 }

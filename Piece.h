@@ -24,10 +24,11 @@ class Piece {
 		char& setLetter(); // used to set letter in derived class
 		Piece(Board* b, int x, int y, char c, char l);
 	public:
-		virtual vector<tuple<int,int,Piece*>> validMoves() = 0; // Pure virtual - this is an abstract class
+		virtual vector<pair<int,int>> getValidMoves() = 0; // Pure virtual - this is an abstract class
 		pair<int,int> getPosition() const;
 		void setPosition(int x, int y);
 		char getColour() const;
+		char getLetter() const;
 		void setColour(char c);
 };
 
