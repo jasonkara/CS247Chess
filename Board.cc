@@ -61,11 +61,27 @@ void Board::move(int oldX, int oldY, int newX, int newY) {
 }
 
 void Board::addPiece(int x, int y, char type) {
-	
+	char colour = (type > 96) ? 'b' : 'w';
+	type = tolower(type);
+	if (type == 'p') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Pawn(this, x, y, colour)));
+	} else if (type == 'r') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Rook(this, x, y, colour)));
+	} else if (type == 'n') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Knight(this, x, y, colour)));
+	} else if (type == 'b') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Bishop(this, x, y, colour)));
+	} else if (type == 'q') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new Queen(this, x, y, colour)));
+	} else if (type == 'k') {
+		layout.at(y).at(x) = std::move(unique_ptr<Piece>(new King(this, x, y, colour)));
+	} else {
+		cout << "Invalid piece type\n";
+	}
 }
 
 void Board::removePiece(int x, int y) {
-
+	layout.at(y).at(x) = std::move(unique_ptr<Piece>(nullptr));
 }
 
 ostream& operator<<(ostream& out, const Board& b) {

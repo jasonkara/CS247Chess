@@ -45,12 +45,24 @@ int main() {
 				char second, third, fourth;
 				if (cmd == "+") {
 					cin >> second >> third >> fourth;
-					b.addPiece(tolower(third) - 97, fourth - 49, second);
-					cout << "Added " << second << " piece at " << third << fourth << endl;
+					int x = tolower(third) - 97;
+					int y = fourth - 49;
+					if (x >= 0 && x < b.getWidth() && y >= 0 && y < b.getHeight()) {
+						b.addPiece(x, y, second);
+						cout << "Added " << second << " piece at " << third << fourth << endl;
+					} else {
+						cout << "Invalid coordinate\n";
+					}
 				} else if (cmd == "-") {
 					cin >> second >> third;
-					b.removePiece(tolower(second) - 97, third - 49);
-					cout << "Removed piece at " << second << third << '\n';
+					int x = tolower(second) - 97;
+					int y = third - 49;
+					if (x >= 0 && x < b.getWidth() && y >= 0 && y < b.getHeight()) {
+						b.removePiece(x, y);
+						cout << "Removed piece at " << second << third << '\n';
+					} else {
+						cout << "Invalid coordinate\n";
+					}
 				} else if (cmd == "=") {
 					cin >> second;
 					second = tolower(second);
