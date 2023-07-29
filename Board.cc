@@ -69,6 +69,7 @@ void Board::movePiece(Coord start_move, Coord end_move) {
 		// right castle
 		if ((end_move.x - start_move.x) == 2) { // if the king moved 2 squares right
 			movePiece(Coord{"h1"}, Coord{"f1"}); // move left rook
+		// left castle
 		} else if ((end_move.x - start_move.x) == -2) { // if the king moved 2 squares left
 			movePiece(Coord{"a1"}, Coord{"d1"}); // move right rook
 		}
