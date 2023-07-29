@@ -17,9 +17,9 @@ void Human::playMove() {
 
 
     // cerr << "start_move: " << start_move << ' ' << "end_move: " << end_move << '\n';
-    cerr << "start_move_coord " << start_move_coord.x << ' ' << start_move_coord.y << '\n';
+    // cerr << "start_move_coord " << start_move_coord.x << ' ' << start_move_coord.y << '\n';
 
-    cerr << "end_move_coord " << end_move_coord.x << ' ' << end_move_coord.y << '\n';
+    // cerr << "end_move_coord " << end_move_coord.x << ' ' << end_move_coord.y << '\n';
 
     Piece* piece_to_move = board->getPiece(start_move_coord);
     vector<Coord> validMoves = piece_to_move->getValidMoves();

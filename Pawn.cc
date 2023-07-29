@@ -28,12 +28,6 @@ vector<Coord> Pawn::getValidMoves() {
             validCoords.push_back(doubleAhead);
         hasDoubleAdvance = false;
     }
-
-    
-    // for (auto& coord : validCoords) {
-    //     cerr << "coord 1: ";
-    //     cerr << coord.x << ' ' << coord.y << '\n';
-    // }
     
     return validCoords;
 }

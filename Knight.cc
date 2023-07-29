@@ -12,8 +12,6 @@ vector<Coord> Knight::getValidMoves() {
                                     { 1,  2},
                                     { 1, -2}};
 
-    cerr << "in knight\n";
-
     vector<Coord> validMoves;
     for (auto moveDiff : validMoveDiffs) {
         Coord candidateMove = {pos.x + moveDiff.x,  pos.y + moveDiff.y};
