@@ -21,9 +21,8 @@ void Human::playMove() {
 
     cerr << "end_move_coord " << end_move_coord.x << ' ' << end_move_coord.y << '\n';
 
-    Piece& piece_to_move = board->getPiece(start_move_coord);
-
-    vector<Coord> validMoves = piece_to_move.getValidMoves();
+    Piece* piece_to_move = board->getPiece(start_move_coord);
+    vector<Coord> validMoves = piece_to_move->getValidMoves();
 
     for (const auto& coord : validMoves) {
         if (end_move_coord.x == coord.x && end_move_coord.y == coord.y) {

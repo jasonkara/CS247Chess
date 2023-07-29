@@ -8,6 +8,7 @@
 using namespace std;
 
 class King : public Piece {
+	bool hasMoved = false;
 	public:
 		King(Board* b, int x, int y, char c);
 		vector<Coord> getValidMoves() override;

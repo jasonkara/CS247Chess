@@ -29,7 +29,7 @@ class Board {
 		void setCurrentPlayer(char c);
 		int getWidth() const;
 		int getHeight() const;
-		Piece& getPiece(Coord coord);
+		Piece* getPiece(Coord coord) const ;
 		bool isValid(Coord coord); // return if coord is a valid square on the board
 		bool isEmpty(Coord coord); // return if coord is empty
 		vector<vector<unique_ptr<Piece>>>& getLayout();

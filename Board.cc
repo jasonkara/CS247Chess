@@ -61,6 +61,19 @@ void Board::movePiece(Coord start_move, Coord end_move) {
 	layout[end_move.y][end_move.x] = std::move(layout[start_move.y][start_move.x]);
 	// update coords in piece
 	layout[end_move.y][end_move.x].get()->setPos(end_move);
+
+	// castle special case (king moves 2 squares)
+	King* candidateKing = dynamic_cast<King*>(layout[end_move.y][end_move.x].get());
+
+	if (candidateKing) { // if the piece is a king
+		// right castle
+		if ((end_move.x - start_move.x) == 2) { // if the king moved 2 squares right
+			movePiece(Coord{"h1"}, Coord{"f1"}); // move left rook
+		} else if ((end_move.x - start_move.x) == -2) { // if the king moved 2 squares left
+			movePiece(Coord{"a1"}, Coord{"d1"}); // move right rook
+		}
+	}
+
 }
 
 void Board::addPiece(int x, int y, char type) {
@@ -129,8 +142,8 @@ vector<vector<unique_ptr<Piece>>>& Board::getLayout() {
 	return layout;
 }
 
-Piece& Board::getPiece(Coord coord) {
-	return *((layout[coord.y][coord.x]).get());
+Piece* Board::getPiece(Coord coord) const {
+	return (layout[coord.y][coord.x]).get();
 }
 
 bool Board::isValid(Coord coord) {

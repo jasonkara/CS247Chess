@@ -10,5 +10,11 @@ vector<Coord> Rook::getValidMoves() {
     vector<Coord> validMoves = checkHorizontal();
     vector<Coord> vertValidMoves = checkVertical();
     validMoves.insert(validMoves.end(), vertValidMoves.begin(), vertValidMoves.end());
+
+    hasMoved = true;
     return validMoves;
+}
+
+bool Rook::getHasMoved() const {
+    return hasMoved;
 }

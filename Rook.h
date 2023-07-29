@@ -8,8 +8,10 @@
 using namespace std;
 
 class Rook : public Piece {
+	bool hasMoved = false;
 	public:
 		Rook(Board* b, int x, int y, char c);
+		bool getHasMoved() const;
 		vector<Coord> getValidMoves() override;
 };
 
