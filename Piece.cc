@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Piece::Piece(Board* b, int x, int y, char c, char l) : board{b}, position{x, y}, colour{c} { 
+Piece::Piece(Board* b, int x, int y, char c, char l) : board{b}, pos{x, y}, colour{c} { 
 	// if the colour of the piece is black, the letter should be lowercase
 	// if the colour of the piece is white, the letter should be uppercase
 	if (tolower(c) == 'b') {
@@ -46,18 +46,18 @@ bool Piece::isOpponent(Coord coord) const {
 }
 
 vector<Coord> Piece::checkHorizontal() const {
-    // const vector<unique_ptr<Piece>>& row = board->getLayout()[position.second];
+    // const vector<unique_ptr<Piece>>& row = board->getLayout()[pos.second];
 
     // vector<pair<int, int>> validMoves;
     // // check the right squares of current piece
-    // for (int i = position.first + 1; i < board->getWidth(); i++) {
-    //     bool cont = checkHelper(i, position.second, row[i].get(), validMoves);
+    // for (int i = pos.first + 1; i < board->getWidth(); i++) {
+    //     bool cont = checkHelper(i, pos.second, row[i].get(), validMoves);
     //     if (!cont) break;
     // }
 
     // // check to the left squares of current piece
-    // for (int i = position.first - 1; i >= 0; i--) {
-    //     bool cont = checkHelper(i, position.second, row[i].get(), validMoves);
+    // for (int i = pos.first - 1; i >= 0; i--) {
+    //     bool cont = checkHelper(i, pos.second, row[i].get(), validMoves);
     //     if (!cont) break;
     // }
     // return validMoves;
@@ -66,20 +66,20 @@ vector<Coord> Piece::checkHorizontal() const {
 vector<Coord> Piece::checkVertical() const {
     const vector<vector<unique_ptr<Piece>>>& layout = board->getLayout();
     // vector<pair<int, int>> validMoves;
-    // for (int i = position.second + 1; i < board->getHeight(); i++) {
-    //     bool cont = checkHelper(position.first, i, layout[i][position.first].get(), validMoves);
+    // for (int i = pos.second + 1; i < board->getHeight(); i++) {
+    //     bool cont = checkHelper(pos.first, i, layout[i][pos.first].get(), validMoves);
     //     if (!cont) break;
     // }
-    // for (int i = position.second - 1; i >= 0; i++) {
-    //     bool cont = checkHelper(position.first, i, layout[i][position.first].get(), validMoves);
+    // for (int i = pos.second - 1; i >= 0; i++) {
+    //     bool cont = checkHelper(pos.first, i, layout[i][pos.first].get(), validMoves);
     //     if (!cont) break;
     // }
     
 }
 
 vector<Coord> Piece::checkDiagonal() const {
-    // int x = position.first + 1;
-    // int y = position.second + 1;
+    // int x = pos.first + 1;
+    // int y = pos.second + 1;
     // vector<pair<int, int>> validMoves;
     
 
@@ -90,8 +90,8 @@ vector<Coord> Piece::checkDiagonal() const {
     //     y++;
     // }
 
-    // x = position.first - 1;
-    // y = position.second - 1;
+    // x = pos.first - 1;
+    // y = pos.second - 1;
     // while (x <= board->getWidth() && y <= board->getHeight()) {
     //     bool cont = checkHelper(x, y, board->getLayout()[y][x].get(), validMoves);
     //     if (!cont) break;
@@ -100,12 +100,12 @@ vector<Coord> Piece::checkDiagonal() const {
     // }
 }
 
-Coord Piece::getPosition() const {
-    return position;
+Coord Piece::getPos() const {
+    return pos;
 }
 
-void Piece::setPosition(Coord coord) {
-    position = coord;
+void Piece::setPos(Coord coord) {
+    pos = coord;
 }
 
 char Piece::getColour() const {

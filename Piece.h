@@ -15,7 +15,7 @@ class Board;
 class Piece {
 	protected:
 		Board* board;
-		Coord position;
+		Coord pos;
 		char colour;
 		char letter;
 
@@ -30,8 +30,8 @@ class Piece {
 		Piece(Board* b, int x, int y, char c, char l);
 	public:
 		virtual vector<Coord> getValidMoves() = 0; // Pure virtual - this is an abstract class
-		Coord getPosition() const;
-		void setPosition(Coord coord);
+		Coord getPos() const;
+		void setPos(Coord coord);
 		char getColour() const;
 		char getLetter() const;
 		void setColour(char c);

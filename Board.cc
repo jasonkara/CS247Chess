@@ -60,7 +60,7 @@ void Board::movePiece(Coord start_move, Coord end_move) {
 	// move piece at start_move to end_move
 	layout[end_move.y][end_move.x] = std::move(layout[start_move.y][start_move.x]);
 	// update coords in piece
-	layout[end_move.y][end_move.x].get()->setPosition(end_move);
+	layout[end_move.y][end_move.x].get()->setPos(end_move);
 }
 
 void Board::addPiece(int x, int y, char type) {
