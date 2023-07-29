@@ -20,7 +20,7 @@ class Piece {
 		char letter;
 
 		// returns true if we hit a barrier or out of range
-		bool checkHelper(Coord coord, vector<Coord>& validMoves); 
+		vector<Coord> checkHelper(int x_diff, int y_diff) const; 
 		bool isOpponent(Coord coord) const;
 
 		vector<Coord> checkHorizontal() const;
