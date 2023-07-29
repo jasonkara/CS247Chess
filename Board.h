@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include "coord.h"
 #include "Piece.h"
 
 using namespace std;
@@ -20,7 +21,7 @@ class Board {
 		Board();
 		void makeRow(int y, char c);
 		void makePawns(int y, char c);
-		void move(int oldX, int oldY, int newX, int newY);
+		void movePiece(Coord start_move, Coord end_move);
 		void addPiece(int x, int y, char type);
 		void removePiece(int x, int y);
 		friend ostream& operator<<(ostream& out, const Board& b);
@@ -28,7 +29,11 @@ class Board {
 		void setCurrentPlayer(char c);
 		int getWidth() const;
 		int getHeight() const;
+		Piece& getPiece(Coord coord);
+		bool isValid(Coord coord); // return if coord is a valid square on the board
+		bool isEmpty(Coord coord); // return if coord is empty
 		vector<vector<unique_ptr<Piece>>>& getLayout();
 };
+
 
 #endif

@@ -10,7 +10,7 @@ using namespace std;
 class Level3 : public Player {
 	public:
 		Level3(Board* b, char c);
-		vector<pair<int,int>> getMove();
+		void playMove() override;
 };
 
 #endif

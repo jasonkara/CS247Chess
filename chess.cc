@@ -105,6 +105,8 @@ int main() {
 						if (stopCheck) {
 							cout << "Please remove all pawns from the first and last row of the board before proceeding.\n";
 						} else if (wKing != 1 || bKing != 1) {
+							cerr << "num wKing: " << wKing << '\n';
+							cerr << "num bKing: " << bKing << '\n';
 							cout << "Please ensure there is 1 of each colour of king before proceeding.\n";
 						} else {
 							done = true;
@@ -119,6 +121,7 @@ int main() {
 			b = unique_ptr<Board>(new Board{});
 			playerSetup(white, type1, b.get(), 'w');
 			playerSetup(black, type2, b.get(), 'b');
+			cout << *(b.get());
 			gameRunning = false;
 		} else if (cmd == "resign") {
 			// award a point to the other player
@@ -134,10 +137,10 @@ int main() {
 				cout << "Please start a new game\n";
 			} else {
 				if (b->getCurrentPlayer() == 'w') {
-					white->getMove();
+					white->playMove();
 					b->setCurrentPlayer('b');
 				} else {
-					black->getMove();
+					black->playMove();
 					b->setCurrentPlayer('w');
 				}
 				cout << *(b.get());

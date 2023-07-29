@@ -10,7 +10,7 @@ using namespace std;
 class Human : public Player {
 	public:
 		Human(Board* b, char c);
-		vector<pair<int,int>> getMove();
+		void playMove() override;
 };
 
 #endif

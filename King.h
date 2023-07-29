@@ -10,7 +10,7 @@ using namespace std;
 class King : public Piece {
 	public:
 		King(Board* b, int x, int y, char c);
-		vector<pair<int,int>> getValidMoves() override;
+		vector<Coord> getValidMoves() override;
 
 };
 

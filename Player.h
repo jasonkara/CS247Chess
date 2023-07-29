@@ -13,7 +13,7 @@ class Player {
 		char colour;
 		Player(Board* b, char c);
 	public:
-		virtual vector<pair<int,int>> getMove() = 0; // Pure virtual - this is an abstract class
+		virtual void playMove() = 0; // Pure virtual - this is an abstract class
 		char getColour();
 		void setColour(char c);
 };

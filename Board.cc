@@ -56,8 +56,11 @@ Board::Board() : currentPlayer{'w'}, width{8}, height{8} {
 	makeRow(7, 'b');
 }
 
-void Board::move(int oldX, int oldY, int newX, int newY) {
-
+void Board::movePiece(Coord start_move, Coord end_move) {
+	// move piece at start_move to end_move
+	layout[end_move.y][end_move.x] = std::move(layout[start_move.y][start_move.x]);
+	// update coords in piece
+	layout[end_move.y][end_move.x].get()->setPosition(end_move);
 }
 
 void Board::addPiece(int x, int y, char type) {
@@ -86,7 +89,7 @@ void Board::removePiece(int x, int y) {
 
 ostream& operator<<(ostream& out, const Board& b) {
 	for (int i = b.height - 1; i >= 0; i--) { // from top to bottom
-		const vector<unique_ptr<Piece>>& row = b.layout[i];
+		out << i+1 << ' '; // output row number
 		for (int j = 0; j < b.width; j++) {
 			const unique_ptr<Piece>& p = b.layout[i][j];
 			if (p.get() != nullptr) { // if piece exists
@@ -97,6 +100,13 @@ ostream& operator<<(ostream& out, const Board& b) {
 		}
 		out << '\n';
 	}
+
+	// output column number
+	out << "\n  ";
+	for (char l = 'a'; l < 'a'+b.width; l++) out << l;
+	out << '\n';
+
+	return out;
 }
 
 char Board::getCurrentPlayer() {
@@ -117,4 +127,17 @@ int Board::getHeight() const {
 
 vector<vector<unique_ptr<Piece>>>& Board::getLayout() {
 	return layout;
+}
+
+Piece& Board::getPiece(Coord coord) {
+	return *((layout[coord.y][coord.x]).get());
+}
+
+bool Board::isValid(Coord coord) {
+	return (coord.x >= 0 && coord.y >= 0 &&
+			coord.x < width && coord.y < height);
+}
+
+bool Board::isEmpty(Coord coord) {
+	return (layout[coord.y][coord.x].get() == nullptr);
 }

@@ -8,9 +8,10 @@
 using namespace std;
 
 class Pawn : public Piece {
+	bool hasDoubleAdvance = true;
 	public:
 		Pawn(Board* b, int x, int y, char c);
-		vector<pair<int,int>> getValidMoves() override;
+		vector<Coord> getValidMoves() override;
 };
 
 #endif

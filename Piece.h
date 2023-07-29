@@ -5,6 +5,7 @@
 #include <tuple>
 #include <utility>
 #include "Board.h"
+#include "coord.h"
 
 using namespace std;
 
@@ -14,19 +15,23 @@ class Board;
 class Piece {
 	protected:
 		Board* board;
-		pair<int,int> position;
+		Coord position;
 		char colour;
 		char letter;
-		bool checkHelper(int x, int y, const Piece* const piece, vector<pair<int, int>>& validMoves);
-		vector<pair<int,int>> checkHorizontal();
-		vector<pair<int,int>> checkVertical();
-		vector<pair<int,int>> checkDiagonal();
+
+		// returns true if we hit a barrier or out of range
+		bool checkHelper(Coord coord, vector<Coord>& validMoves); 
+		bool isOpponent(Coord coord) const;
+
+		vector<Coord> checkHorizontal() const;
+		vector<Coord> checkVertical() const;
+		vector<Coord> checkDiagonal() const;
 		char& setLetter(); // used to set letter in derived class
 		Piece(Board* b, int x, int y, char c, char l);
 	public:
-		virtual vector<pair<int,int>> getValidMoves() = 0; // Pure virtual - this is an abstract class
-		pair<int,int> getPosition() const;
-		void setPosition(int x, int y);
+		virtual vector<Coord> getValidMoves() = 0; // Pure virtual - this is an abstract class
+		Coord getPosition() const;
+		void setPosition(Coord coord);
 		char getColour() const;
 		char getLetter() const;
 		void setColour(char c);
