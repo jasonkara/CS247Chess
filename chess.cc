@@ -86,28 +86,34 @@ int main() {
 						int wKing = 0;
 						int bKing = 0;
 						bool stopCheck = false;
+						bool kingInCheck = false;
 						for (int i = 0; i < b->getHeight(); i ++) {
 							for (int j = 0; j < b->getWidth() && !stopCheck; j ++) {
 								const unique_ptr<Piece>& p = b->getLayout()[i][j];
 								if (p.get()) { // only check if the piece actually exists
 									if (p.get()->getLetter() == 'K') {
 										wKing ++;
+										King* k = dynamic_cast<King*>(p.get());
+										if (k->inCheck()) kingInCheck = true;
 									} else if (p.get()->getLetter() == 'k') {
 										bKing ++;
+										King* k = dynamic_cast<King*>(p.get());
+										if (k->inCheck()) kingInCheck = true;
 									} else if (tolower(p.get()->getLetter()) == 'p' && (i == 0 || i == b->getHeight() - 1)) {
 										// pawn in the first or last row of the board
 										stopCheck = true;
 									}
-									// TODO - check that kings are not in check
 								}
 							}
 						}
 						if (stopCheck) {
 							cout << "Please remove all pawns from the first and last row of the board before proceeding.\n";
 						} else if (wKing != 1 || bKing != 1) {
-							cerr << "num wKing: " << wKing << '\n';
-							cerr << "num bKing: " << bKing << '\n';
+							//cerr << "num wKing: " << wKing << '\n';
+							//cerr << "num bKing: " << bKing << '\n';
 							cout << "Please ensure there is 1 of each colour of king before proceeding.\n";
+						} else if (kingInCheck) {
+							cout << "Please ensure that no kings are in check before proceeding\n";
 						} else {
 							done = true;
 						}
@@ -126,8 +132,10 @@ int main() {
 		} else if (cmd == "resign") {
 			// award a point to the other player
 			if (b->getCurrentPlayer() == 'w') {
+				cout << "Black wins!\n";
 				blackScore += 1;
 			} else {
+				cout << "White wins!\n";
 				whiteScore += 1;
 			}
 			// end the game
@@ -143,8 +151,32 @@ int main() {
 				}
 				cout << *(b.get());
 				gameRunning = true;
+				bool gameEnd = false;
+				for (int i = 0; i < b->getHeight() && !gameEnd; i ++) {
+					for (int j = 0; j < b->getWidth() && !gameEnd; j ++) {
+						Piece* p = b->getLayout().at(i).at(j).get();
+						if (p && tolower(p->getLetter()) == 'k') {
+							King* k = dynamic_cast<King*>(p);
+							if (k->inCheckmate()) {
+								if (k->getColour() == 'w') {
+									cout << "Checkmate! Black wins!\n";
+									blackScore ++;
+								} else {
+									cout << "Checkmate! White wins!\n";
+									whiteScore ++;
+								}
+								gameEnd = true;
+							} else if (k->inCheck()) {
+								cout << (k->getColour() == 'w' ? "White " : "Black ");
+								cout << " is in check.\n";
+							}
+						}
+					}
+				}
+				if (gameEnd) b = std::move(unique_ptr<Board>(nullptr));
 			}
 			// TODO - updating scores on checkmate/stalemate
 		}
 	}
+	cout << "Final Score:\nWhite: " << whiteScore << "\nBlack: " << blackScore << '\n';
 }

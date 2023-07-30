@@ -1,6 +1,7 @@
 #include <vector>
 #include <utility>
 #include "Human.h"
+#include "King.h"
 
 using namespace std;
 
@@ -38,6 +39,13 @@ bool Human::playMove() {
 
     for (const auto& coord : validMoves) {
         if (end_move_coord.x == coord.x && end_move_coord.y == coord.y) {
+			if (tolower(piece_to_move->getLetter()) == 'k') {
+				King* k = dynamic_cast<King*>(piece_to_move);
+				if (k->inCheckAtCoord(end_move_coord)) {
+					cerr << "You are not allowed to move your king into check. Try again\n";
+					return false;
+				}
+			}
             board->movePiece(start_move_coord, end_move_coord);
             return true;
         }

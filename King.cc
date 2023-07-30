@@ -48,3 +48,31 @@ vector<Coord> King::getValidMoves() {
     hasMoved = true;
     return validMoves;
 }
+
+bool King::inCheckAtCoord(Coord c) {
+	for (int i = 0; i < board->getHeight(); i ++) {
+		for (int j = 0; j < board->getWidth(); j ++) {
+			Piece* p = board->getLayout().at(i).at(j).get();
+			if (p && p->getColour() != colour) {
+				vector<Coord> moves = p->getValidMoves();
+				for (Coord d : moves) {
+					if (d.x == c.x && d.y == c.y) return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+bool King::inCheck() {
+	return inCheckAtCoord(pos);
+}
+
+bool King::inCheckmate() {
+	if (!inCheck()) return false;
+	vector<Coord> moves = getValidMoves();
+	for (Coord c : moves) {
+		if (!inCheckAtCoord(c)) return false;
+	}
+	return true;
+}

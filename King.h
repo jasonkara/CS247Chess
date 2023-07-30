@@ -12,7 +12,9 @@ class King : public Piece {
 	public:
 		King(Board* b, int x, int y, char c);
 		vector<Coord> getValidMoves() override;
-
+		bool inCheckAtCoord(Coord c);
+		bool inCheck();
+		bool inCheckmate();
 };
 
 #endif
