@@ -30,7 +30,9 @@ vector<Coord> Piece::checkHelper(int x_diff, int y_diff) const {
         while (board->isValid(candidateMove) && 
             (board->isEmpty(candidateMove) || isOpponent(candidateMove))) 
         {
+            // cerr << "candidateMove: " << candidateMove.x << ", " << candidateMove.y << ": accepted\n";
             validMoves.push_back(candidateMove);
+            if (isOpponent(candidateMove)) break; // if the piece is an opponent, we can't move past it
             candidateMove.x += direction * x_diff;
             candidateMove.y += direction * y_diff;
         }

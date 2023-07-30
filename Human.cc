@@ -37,16 +37,29 @@ bool Human::playMove() {
 	}
     vector<Coord> validMoves = piece_to_move->getValidMoves();
 
+    char promotion;
     for (const auto& coord : validMoves) {
-        if (end_move_coord.x == coord.x && end_move_coord.y == coord.y) {
+        if (end_move_coord.x == coord.x && end_move_coord.y == coord.y) { // if end move is a valid move
 			if (tolower(piece_to_move->getLetter()) == 'k') {
 				King* k = dynamic_cast<King*>(piece_to_move);
 				if (k->inCheckAtCoord(end_move_coord)) {
 					cerr << "You are not allowed to move your king into check. Try again\n";
 					return false;
 				}
-			}
-            board->movePiece(start_move_coord, end_move_coord);
+            // handling promotion input
+			} else if (piece_to_move->getLetter() == 'p' && 
+                      (end_move_coord.y == 0 || end_move_coord.y == board->getWidth() - 1)) 
+            {
+                cerr << "Enter the letter of the piece you want to promote to (q, r, b, n): \n";
+                bool invalidPromotion = false;
+                do {
+                    cin >> promotion;
+                    promotion = tolower(promotion);
+                    invalidPromotion = promotion != 'q' && promotion != 'r' && promotion != 'b' && promotion != 'n';
+                    if (invalidPromotion) cerr << "Invalid promotion. Try again.\n";
+                } while (invalidPromotion);
+            }
+            board->movePiece(start_move_coord, end_move_coord, promotion);
             return true;
         }
     }

@@ -56,11 +56,24 @@ Board::Board() : currentPlayer{'w'}, width{8}, height{8} {
 	makeRow(7, 'b');
 }
 
-void Board::movePiece(Coord start_move, Coord end_move) {
+void Board::movePiece(Coord start_move, Coord end_move, char promotion) {
+	// promotion default to ''. It should only be set if piece to be moved is a pawn and
+	// end_move is either the first or last row
+
 	// move piece at start_move to end_move
 	layout[end_move.y][end_move.x] = std::move(layout[start_move.y][start_move.x]);
 	// update coords in piece
 	layout[end_move.y][end_move.x].get()->setPos(end_move);
+
+	// since promotion defaults to Q, this does pawn promotion automatically if the correct move warrants it 
+	// (simplifies promotion behavior for bots) 
+	Piece* pawn = layout[end_move.y][end_move.x].get();
+	if (pawn->getLetter() == 'p' && 
+		(end_move.y == 0 || end_move.y == getWidth()-1))
+		{
+			if (pawn->getColour() == 'W') promotion = toupper(promotion);
+			addPiece(end_move.x, end_move.y, promotion);
+		}
 
 	// castle special case (king moves 2 squares)
 	King* candidateKing = dynamic_cast<King*>(layout[end_move.y][end_move.x].get());

@@ -21,7 +21,7 @@ class Board {
 		Board();
 		void makeRow(int y, char c);
 		void makePawns(int y, char c);
-		void movePiece(Coord start_move, Coord end_move);
+		void movePiece(Coord start_move, Coord end_move, char promotion = 'q');
 		void addPiece(int x, int y, char type);
 		void removePiece(int x, int y);
 		friend ostream& operator<<(ostream& out, const Board& b);
