@@ -6,7 +6,7 @@ using namespace std;
 
 Human::Human(Board* b, char c) : Player{b, c} {}
 
-void Human::playMove() {
+bool Human::playMove() {
     string start_move;
     string end_move;
 
@@ -22,15 +22,27 @@ void Human::playMove() {
     // cerr << "end_move_coord " << end_move_coord.x << ' ' << end_move_coord.y << '\n';
 
     Piece* piece_to_move = board->getPiece(start_move_coord);
+
+	// Make sure a piece exists there
+	if (!piece_to_move) {
+		cerr << "No piece at that position. Try again\n";
+		return false;
+	}
+
+	// Make sure one player can't move the other player's pieces
+	if (piece_to_move->getColour() != colour) {
+		cerr << "That piece belongs to a different player. Try again\n";
+		return false;
+	}
     vector<Coord> validMoves = piece_to_move->getValidMoves();
 
     for (const auto& coord : validMoves) {
         if (end_move_coord.x == coord.x && end_move_coord.y == coord.y) {
             board->movePiece(start_move_coord, end_move_coord);
-            return;
+            return true;
         }
     }
     // piece doesn't exist
     cerr << "Invalid move. Try again\n";
-
+	return false;
 }

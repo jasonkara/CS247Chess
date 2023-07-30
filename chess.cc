@@ -92,7 +92,7 @@ int main() {
 								if (p.get()) { // only check if the piece actually exists
 									if (p.get()->getLetter() == 'K') {
 										wKing ++;
-									} else if (p.get()->getLetter() == 'K') {
+									} else if (p.get()->getLetter() == 'k') {
 										bKing ++;
 									} else if (tolower(p.get()->getLetter()) == 'p' && (i == 0 || i == b->getHeight() - 1)) {
 										// pawn in the first or last row of the board
@@ -137,11 +137,9 @@ int main() {
 				cout << "Please start a new game\n";
 			} else {
 				if (b->getCurrentPlayer() == 'w') {
-					white->playMove();
-					b->setCurrentPlayer('b');
+					if (white->playMove()) b->setCurrentPlayer('b');
 				} else {
-					black->playMove();
-					b->setCurrentPlayer('w');
+					if (black->playMove()) b->setCurrentPlayer('w');
 				}
 				cout << *(b.get());
 				gameRunning = true;

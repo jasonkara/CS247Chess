@@ -6,6 +6,6 @@ using namespace std;
 
 Level3::Level3(Board* b, char c) : Player{b, c} {}
 
-void Level3::playMove() {
+bool Level3::playMove() {
     
 }
