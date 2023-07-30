@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Pawn::Pawn(Board* b, int x, int y, char c) : Piece{b, x, y, c, 'P'} {}
+Pawn::Pawn(Board* b, int x, int y, char c) : Piece{b, x, y, c, 'P'}, start_pos{x, y} { }
 
 vector<Coord> Pawn::getValidMoves() {
     vector<Coord> validCoords;
@@ -22,11 +22,11 @@ vector<Coord> Pawn::getValidMoves() {
     if (board->isValid(attacking2) && isOpponent(attacking2))
         validCoords.push_back(attacking2);
 
-    if (hasDoubleAdvance) {
+    // if the pawn is at its starting position, it can move two spaces ahead
+    if (pos.x == start_pos.x && pos.y == start_pos.y) {
         Coord doubleAhead = {pos.x, pos.y + 2 * direction};
         if (board->isEmpty(doubleAhead))
             validCoords.push_back(doubleAhead);
-        hasDoubleAdvance = false;
     }
     
     return validCoords;

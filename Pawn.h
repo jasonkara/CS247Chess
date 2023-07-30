@@ -8,7 +8,7 @@
 using namespace std;
 
 class Pawn : public Piece {
-	bool hasDoubleAdvance = true;
+	Coord start_pos;
 	public:
 		Pawn(Board* b, int x, int y, char c);
 		vector<Coord> getValidMoves() override;
