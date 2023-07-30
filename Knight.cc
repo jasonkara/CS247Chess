@@ -10,7 +10,11 @@ vector<Coord> Knight::getValidMoves() {
     vector<Coord> validMoveDiffs = {{-1, -2},
                                     {-1,  2},
                                     { 1,  2},
-                                    { 1, -2}};
+                                    { 1, -2},
+									{-2, -1},
+                                    {-2,  1},
+                                    { 2,  1},
+                                    { 2, -1}};
 
     vector<Coord> validMoves;
     for (auto moveDiff : validMoveDiffs) {
