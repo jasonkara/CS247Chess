@@ -168,7 +168,7 @@ int main() {
 								gameEnd = true;
 							} else if (k->inCheck()) {
 								cout << (k->getColour() == 'w' ? "White " : "Black ");
-								cout << " is in check.\n";
+								cout << "is in check.\n";
 							}
 						}
 					}
