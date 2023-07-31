@@ -47,7 +47,7 @@ bool Human::playMove() {
 					return false;
 				}
             // handling promotion input
-			} else if (piece_to_move->getLetter() == 'p' && 
+			} else if (tolower(piece_to_move->getLetter()) == 'p' && 
                       (end_move_coord.y == 0 || end_move_coord.y == board->getWidth() - 1)) 
             {
                 cerr << "Enter the letter of the piece you want to promote to (q, r, b, n): \n";

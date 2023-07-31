@@ -57,23 +57,33 @@ Board::Board() : currentPlayer{'w'}, width{8}, height{8} {
 }
 
 void Board::movePiece(Coord start_move, Coord end_move, char promotion) {
-	// promotion default to ''. It should only be set if piece to be moved is a pawn and
-	// end_move is either the first or last row
-
+	bool is_capture = layout[end_move.y][end_move.x].get();
 	// move piece at start_move to end_move
 	layout[end_move.y][end_move.x] = std::move(layout[start_move.y][start_move.x]);
 	// update coords in piece
 	layout[end_move.y][end_move.x].get()->setPos(end_move);
 
-	// since promotion defaults to Q, this does pawn promotion automatically if the correct move warrants it 
-	// (simplifies promotion behavior for bots) 
-	Piece* pawn = layout[end_move.y][end_move.x].get();
-	if (pawn->getLetter() == 'p' && 
-		(end_move.y == 0 || end_move.y == getWidth()-1))
-		{
-			if (pawn->getColour() == 'W') promotion = toupper(promotion);
+
+	Piece* piece = layout[end_move.y][end_move.x].get();
+	if (piece != nullptr && tolower(piece->getLetter()) == 'p') {
+		Pawn* pawn = static_cast<Pawn*>(piece); // guaranteed to be a pawn
+		// since promotion defaults to Q, this does pawn promotion automatically if the correct move warrants it 
+		// (simplifies promotion behavior for bots) 
+		if (end_move.y == 0 || end_move.y == getWidth()-1) {
+			if (pawn->getColour() == 'w') promotion = toupper(promotion);
 			addPiece(end_move.x, end_move.y, promotion);
 		}
+		// set en passant flag
+		pawn->setEnPassant( (abs(end_move.y - start_move.y) == 2) );
+
+		// if pawn moves diagonally, check if it's an en passant capture
+		if (abs(end_move.y - start_move.y) == 1 && abs(end_move.x - start_move.x) == 1 &&
+			!is_capture) 
+		{
+			int diff = (pawn->getColour() == 'w') ? -1 : 1;
+			layout[end_move.y+diff][end_move.x].reset();
+		}
+	}
 
 	// castle special case (king moves 2 squares)
 	King* candidateKing = dynamic_cast<King*>(layout[end_move.y][end_move.x].get());
@@ -87,7 +97,6 @@ void Board::movePiece(Coord start_move, Coord end_move, char promotion) {
 			movePiece(Coord{"a1"}, Coord{"d1"}); // move right rook
 		}
 	}
-
 }
 
 void Board::addPiece(int x, int y, char type) {
@@ -157,10 +166,20 @@ vector<vector<unique_ptr<Piece>>>& Board::getLayout() {
 }
 
 Piece* Board::getPiece(Coord coord) const {
+	// cerr << "inside getPiece" << endl;
+	// cerr << coord.x << " " << coord.y << endl;
+
+	// if (layout[coord.y][coord.x].get() == nullptr) {
+	// 	cerr << "piece is null" << endl;
+	// } else {
+	// 	cerr << "piece is not null" << endl;
+	// }
 	return (layout[coord.y][coord.x]).get();
 }
 
 bool Board::isValid(Coord coord) {
+	// cerr << "inside isValid" << endl;
+	// cerr << coord.x << " " << coord.y << endl;
 	return (coord.x >= 0 && coord.y >= 0 &&
 			coord.x < width && coord.y < height);
 }
