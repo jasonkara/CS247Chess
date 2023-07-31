@@ -53,6 +53,17 @@ Xwindow::Xwindow(int width, int height) {
   XSetNormalHints(d, w, &hints);
 
   XSynchronize(d,True);
+  
+	// Background
+	fillRectangle(0, 0, 800, 500, Xwindow::BG);
+	// Board coordinates
+	for (int i = 0; i < 8; i ++) {
+		// Draw y coordinates along left side of board
+		drawString(20, 430 - 50*i, to_string(i + 1), Xwindow::White);
+		// Draw x coordinates along bottom of board
+		drawString(70 + 50*i, 480, string{i + 97}, Xwindow::White);
+	}
+	drawString(500, 70, "CS247 Chess", Xwindow::White);
 
   usleep(1000);
 }
@@ -73,8 +84,6 @@ void Xwindow::drawString(int x, int y, string msg, int colour) {
 }
 
 void Xwindow::display(Board* b, int whiteScore, int blackScore, string message) {
-	// Background
-	fillRectangle(0, 0, 800, 500, Xwindow::BG);
 	int squareCol, textCol;
 	if (b) {
 		for (int i = 0; i < b->getHeight(); i ++) {
@@ -88,19 +97,14 @@ void Xwindow::display(Board* b, int whiteScore, int blackScore, string message) 
 					drawString(70 + 50*j, 430 - 50*i, string{p->getLetter()}, textCol);
 				}
 			}
-			// Draw y coordinates along left side of board
-			drawString(20, 430 - 50*i, to_string(i + 1), Xwindow::White);
-		}
-		// Draw x coordinates along bottom of board
-		for (int i = 0; i < b->getWidth(); i ++) {
-			drawString(70 + 50*i, 480, string{i + 97}, Xwindow::White);
 		}
 	} else {
+		fillRectangle(180, 180, 220, 30, Xwindow::Black);
 		drawString(200, 200, "No game currently in progress.", Xwindow::White);
 	}
+	fillRectangle(500, 170, 300, 300, Xwindow::BG);
 	string wMessage = "White score: " + to_string(whiteScore);
 	string bMessage = "Black score: " + to_string(blackScore);
-	drawString(500, 70, "CS247 Chess", Xwindow::White);
 	drawString(500, 200, wMessage, Xwindow::White);
 	drawString(500, 230, bMessage, Xwindow::Black);
 	// Draw status message, e.g. Black is in check, etc.
