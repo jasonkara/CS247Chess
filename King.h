@@ -15,6 +15,7 @@ class King : public Piece {
 		bool inCheckAtCoord(Coord c);
 		bool inCheck();
 		bool inCheckmate();
+		bool inStalemate();
 };
 
 #endif

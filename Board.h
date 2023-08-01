@@ -33,6 +33,7 @@ class Board {
 		bool isValid(Coord coord); // return if coord is a valid square on the board
 		bool isEmpty(Coord coord); // return if coord is empty
 		vector<vector<unique_ptr<Piece>>>& getLayout();
+		bool checkCopy(Coord start, Coord end, char colour);
 };
 
 
