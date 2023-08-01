@@ -41,8 +41,8 @@ int main() {
 	float blackScore = 0;
 	bool gameRunning = false;
 	unique_ptr<Board> b;
-	// Xwindow w;
-	// w.display(nullptr, whiteScore, blackScore, "");
+	Xwindow w;
+	w.display(nullptr, whiteScore, blackScore, "");
 	while (cin >> cmd && cmd != "quit") {
 		string message = "";
 		if (cmd == "setup") {
@@ -178,6 +178,12 @@ int main() {
 								message = (k->getColour() == 'w' ? "White " : "Black ");
 								message += "is in check.";
 								cout << message << endl;
+							} else if (k->inStalemate()) {
+								message = "Stalemate!";
+								cout << message << endl;
+								whiteScore += 0.5;
+								blackScore += 0.5;
+								gameEnd = true;
 							}
 						}
 					}
@@ -187,7 +193,7 @@ int main() {
 			// TODO - updating scores on checkmate/stalemate
 			// b->getCurrentPlayerValidMoves();
 		}
-		// w.display(b.get(), whiteScore, blackScore, message);
+		w.display(b.get(), whiteScore, blackScore, message);
 	}
 	cout << "Final Score:\nWhite: " << whiteScore << "\nBlack: " << blackScore << '\n';
 }

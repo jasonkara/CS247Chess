@@ -81,6 +81,31 @@ bool King::inCheckmate() {
 	for (Coord c : moves) {
 		if (!inCheckAtCoord(c)) return false;
 	}
+	for (int i = 0; i < board->getHeight(); i ++) {
+		for (int j = 0; j < board->getWidth(); j ++) {
+			Piece* p = board->getLayout().at(i).at(j).get();
+			if (p && p->getColour() == colour) {
+				moves = p->getValidMoves();
+				for (Coord c : moves) {
+					if (!board->checkCopy(p->getPos(), c, colour)) return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+bool King::inStalemate() {
+	// Player is in stalemate if they have no valid moves but are not in check
+	if (inCheck()) return false;
+	for (int i = 0; i < board->getHeight(); i ++) {
+		for (int j = 0; j < board->getWidth(); j ++) {
+			Piece* p = board->getLayout().at(i).at(j).get();
+			if (p && p->getColour() == colour && !p->getValidMoves().empty()) {
+				return false;
+			}
+		}
+	}
 	return true;
 }
 
