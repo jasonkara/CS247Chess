@@ -195,3 +195,22 @@ bool Board::isValid(Coord coord) {
 bool Board::isEmpty(Coord coord) {
 	return (layout[coord.y][coord.x].get() == nullptr);
 }
+
+bool Board::checkCopy(Coord start, Coord end, char colour) {
+	King* k;
+	Board copy = Board{};
+	for (int i = 0; i < height; i ++) {
+		for (int j = 0; j < width; j ++) {
+			copy.removePiece(j, i);
+			Piece* p = layout.at(i).at(j).get();
+			if (p) {
+				copy.addPiece(j, i, p->getLetter());
+				if (tolower(p->getLetter()) == 'k' && p->getColour() == colour) {
+					k = dynamic_cast<King*>(copy.getLayout().at(i).at(j).get());
+				}
+			}
+		}
+	}
+	copy.movePiece(start, end, 'q');
+	return k->inCheck();
+}

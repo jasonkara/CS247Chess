@@ -16,6 +16,7 @@ class King : public Piece {
 		bool inCheckAtCoord(Coord c);
 		bool inCheck();
 		bool inCheckmate();
+		bool inStalemate();
 		void setIsInCheck(bool b);
 		void setHasMoved(bool b);
 };
