@@ -1,7 +1,7 @@
 CXX=g++
 CXXFLAGS=-std=c++14 -Wall -g -MMD
 BUILD_DIR=build
-EXEC=$(BUILD_DIR)/chess
+EXEC=chess
 CCFILES=$(wildcard *.cc)
 OBJECTS=$(addprefix $(BUILD_DIR)/, ${CCFILES:.cc=.o})
 DEPENDS=$(addprefix $(BUILD_DIR)/, ${CCFILES:.cc=.d})
