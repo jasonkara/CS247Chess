@@ -12,6 +12,7 @@ class Rook : public Piece {
 	public:
 		Rook(Board* b, int x, int y, char c);
 		bool getHasMoved() const;
+		void setHasMoved(bool b);
 		vector<Coord> getValidMoves() override;
 };
 
