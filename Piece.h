@@ -30,6 +30,7 @@ class Piece {
 		Piece(Board* b, int x, int y, char c, char l);
 	public:
 		virtual vector<Coord> getValidMoves() = 0; // Pure virtual - this is an abstract class
+		bool isUnderAttack() const;
 		Coord getPos() const;
 		void setPos(Coord coord);
 		char getColour() const;

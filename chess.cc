@@ -112,13 +112,14 @@ int main() {
 						if (stopCheck) {
 							cout << "Please remove all pawns from the first and last row of the board before proceeding.\n";
 						} else if (wKing != 1 || bKing != 1) {
-							//cerr << "num wKing: " << wKing << '\n';
-							//cerr << "num bKing: " << bKing << '\n';
+							cerr << "num wKing: " << wKing << '\n';
+							cerr << "num bKing: " << bKing << '\n';
 							cout << "Please ensure there is 1 of each colour of king before proceeding.\n";
 						} else if (kingInCheck) {
 							cout << "Please ensure that no kings are in check before proceeding\n";
 						} else {
 							done = true;
+							cout << "You have exited setup mode\n\n";
 						}
 					}
 				}
@@ -184,6 +185,7 @@ int main() {
 				if (gameEnd) b = std::move(unique_ptr<Board>(nullptr));
 			}
 			// TODO - updating scores on checkmate/stalemate
+			// b->getCurrentPlayerValidMoves();
 		}
 		// w.display(b.get(), whiteScore, blackScore, message);
 	}

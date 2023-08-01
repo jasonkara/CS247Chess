@@ -23,6 +23,17 @@ bool Piece::isOpponent(Coord coord) const {
             piece->colour != this->colour);
 }
 
+bool Piece::isUnderAttack() const {
+    vector<pair<Coord, Coord>> opponentMoves = board->getOpponentValidMoves();
+    for (auto opponentMove : opponentMoves) {
+        if (pos.x == opponentMove.second.x &&
+            pos.y == opponentMove.second.y) {
+                return true;
+        }
+    }
+    return false;
+}
+
 vector<Coord> Piece::checkHelper(int x_diff, int y_diff) const {
     vector<Coord> validMoves;
     for (int direction: {-1, 1}) { // go backwards then forwards

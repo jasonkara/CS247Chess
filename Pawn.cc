@@ -51,7 +51,7 @@ vector<Coord> Pawn::getValidMoves() {
     }
 
     // if the pawn is at its starting position, it can move two spaces ahead
-    if (pos.x == start_pos.x && pos.y == start_pos.y) {
+    if (pos.x == start_pos.x && pos.y == start_pos.y && board->isEmpty(ahead)) {
         Coord doubleAhead = {pos.x, pos.y + 2 * direction};
         if (board->isEmpty(doubleAhead))
             validCoords.push_back(doubleAhead);

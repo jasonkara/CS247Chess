@@ -26,6 +26,14 @@ class Board {
 		void removePiece(int x, int y);
 		friend ostream& operator<<(ostream& out, const Board& b);
 		char getCurrentPlayer();
+		vector<pair<Coord, Coord>> getValidMovesHelper(char colour);
+		vector<pair<Coord, Coord>> getOpponentValidMoves();
+		vector<pair<Coord, Coord>> getCurrentPlayerValidMoves();
+		vector<Piece*> getPiecesHelper(char colour);
+		vector<Piece*> getCurrentPlayerPieces();
+		vector<Piece*> getOpponentPieces();
+
+
 		void setCurrentPlayer(char c);
 		int getWidth() const;
 		int getHeight() const;

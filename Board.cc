@@ -131,6 +131,37 @@ void Board::removePiece(int x, int y) {
 	layout.at(y).at(x) = std::move(unique_ptr<Piece>(nullptr));
 }
 
+vector<pair<Coord, Coord>> Board::getValidMovesHelper(char colour) {
+	// cerr << colour << " valid moves:\n";
+	vector<pair<Coord, Coord>> validMoves;
+	for (int i = 0; i < height; i ++) {
+		for (int j = 0; j < width; j ++) {
+			Piece* p = layout[i][j].get();
+			if (p != nullptr && p->getColour() == colour) {
+				vector<Coord> moves = p->getValidMoves();
+				for (auto coord : moves) {
+					pair<Coord, Coord> move = make_pair(p->getPos(), coord);
+					validMoves.push_back(move);
+				}
+			}
+		}
+	}
+	// for (auto move : validMoves) {
+	// 	cout << "start: " << move.first.x << ' ' << move.first.y << ' ';
+	// 	cout << "end: " << move.second.x << ' ' << move.second.y << '\n';
+	// }
+	return validMoves;
+}
+
+vector<pair<Coord, Coord>> Board::getCurrentPlayerValidMoves() {
+	return getValidMovesHelper(currentPlayer);
+}
+
+vector<pair<Coord, Coord>> Board::getOpponentValidMoves() {
+	char opponent = (currentPlayer == 'w') ? 'b' : 'w';
+	return getValidMovesHelper(opponent);
+}
+
 ostream& operator<<(ostream& out, const Board& b) {
 	for (int i = b.height - 1; i >= 0; i--) { // from top to bottom
 		out << i+1 << ' '; // output row number
@@ -194,4 +225,26 @@ bool Board::isValid(Coord coord) {
 
 bool Board::isEmpty(Coord coord) {
 	return (layout[coord.y][coord.x].get() == nullptr);
+}
+
+vector<Piece*> Board::getPiecesHelper(char colour) {
+	vector<Piece*> pieces;
+	for (int i = 0; i < height; i ++) {
+		for (int j = 0; j < width; j ++) {
+			Piece* p = layout[i][j].get();
+			if (p != nullptr && p->getColour() == colour) {
+				pieces.push_back(p);
+			}
+		}
+	}
+	return pieces;
+}
+
+vector<Piece*> Board::getCurrentPlayerPieces() {
+	return getPiecesHelper(currentPlayer);
+}
+
+vector<Piece*> Board::getOpponentPieces() {
+	char opponent = (currentPlayer == 'w') ? 'b' : 'w';
+	return getPiecesHelper(opponent);
 }
