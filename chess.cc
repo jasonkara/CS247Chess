@@ -41,8 +41,8 @@ int main() {
 	float blackScore = 0;
 	bool gameRunning = false;
 	unique_ptr<Board> b;
-	// Xwindow w;
-	// w.display(nullptr, whiteScore, blackScore, "");
+	Xwindow w;
+	w.display(nullptr, whiteScore, blackScore, "");
 	while (cin >> cmd && cmd != "quit") {
 		string message = "";
 		if (cmd == "setup") {
@@ -191,7 +191,7 @@ int main() {
 			}
 			// TODO - updating scores on checkmate/stalemate
 		}
-		// w.display(b.get(), whiteScore, blackScore, message);
+		w.display(b.get(), whiteScore, blackScore, message);
 	}
 	cout << "Final Score:\nWhite: " << whiteScore << "\nBlack: " << blackScore << '\n';
 }
