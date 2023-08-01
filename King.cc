@@ -24,7 +24,7 @@ vector<Coord> King::getValidMoves() {
     }
 
     // check for castle moves
-    if (!hasMoved) {
+    if (!hasMoved && !isInCheck) { // can't castle if king has moved or is in check
         // right castle
         if (board->isEmpty({pos.x + 1, pos.y}) &&
             board->isEmpty({pos.x + 2, pos.y}))
@@ -44,12 +44,19 @@ vector<Coord> King::getValidMoves() {
         }
     }
 
+    // cerr << "king position: " << pos.x << " " << pos.y << endl;
+    // cerr << "king valid moves: \n";
+    // for (auto move : validMoves) {
+    //     cerr << move.x << " " << move.y << endl;
+    // }
 
-    hasMoved = true;
     return validMoves;
 }
 
 bool King::inCheckAtCoord(Coord c) {
+    // position
+    // cerr << "inCheckAtCoord called" << endl;
+    // cerr << pos.x << " " << pos.y << endl;
 	for (int i = 0; i < board->getHeight(); i ++) {
 		for (int j = 0; j < board->getWidth(); j ++) {
 			Piece* p = board->getLayout().at(i).at(j).get();
@@ -100,4 +107,12 @@ bool King::inStalemate() {
 		}
 	}
 	return true;
+}
+
+void King::setIsInCheck(bool b) {
+    isInCheck = b;
+}
+
+void King::setHasMoved(bool b) {
+    hasMoved = b;
 }

@@ -9,6 +9,7 @@ using namespace std;
 
 class King : public Piece {
 	bool hasMoved = false;
+	bool isInCheck = false;
 	public:
 		King(Board* b, int x, int y, char c);
 		vector<Coord> getValidMoves() override;
@@ -16,6 +17,8 @@ class King : public Piece {
 		bool inCheck();
 		bool inCheckmate();
 		bool inStalemate();
+		void setIsInCheck(bool b);
+		void setHasMoved(bool b);
 };
 
 #endif

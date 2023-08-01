@@ -96,6 +96,14 @@ void Board::movePiece(Coord start_move, Coord end_move, char promotion) {
 		} else if ((end_move.x - start_move.x) == -2) { // if the king moved 2 squares left
 			movePiece(Coord{"a1"}, Coord{"d1"}); // move right rook
 		}
+		candidateKing->setHasMoved(true); // can't castle then
+		candidateKing->setIsInCheck(false); // king has moved, so its not in check anymore if it was
+	}
+
+	// if rook moves, can't castle with it
+	Rook* candidateRook = dynamic_cast<Rook*>(layout[end_move.y][end_move.x].get());
+	if (candidateRook) {
+		candidateRook->setHasMoved(true);
 	}
 }
 
