@@ -7,7 +7,7 @@ OBJECTS=$(addprefix $(BUILD_DIR)/, ${CCFILES:.cc=.o})
 DEPENDS=$(addprefix $(BUILD_DIR)/, ${CCFILES:.cc=.d})
 
 $(EXEC): $(OBJECTS)
-	$(CXX) $(OBJECTS) -o $(EXEC)
+	$(CXX) $(OBJECTS) -o $(EXEC) -lX11
 
 -include $(DEPENDS)
 

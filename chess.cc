@@ -14,6 +14,7 @@
 #include "Pawn.h"
 #include "Queen.h"
 #include "Rook.h"
+#include "Window.h"
 
 using namespace std;
 
@@ -40,8 +41,10 @@ int main() {
 	float blackScore = 0;
 	bool gameRunning = false;
 	unique_ptr<Board> b;
-
+	Xwindow w;
+	w.display(nullptr, whiteScore, blackScore, "");
 	while (cin >> cmd && cmd != "quit") {
+		string message = "";
 		if (cmd == "setup") {
 			if (b.get() == nullptr || white.get() == nullptr) {
 				cout << "Please start a new game\n";
@@ -132,17 +135,19 @@ int main() {
 		} else if (cmd == "resign") {
 			// award a point to the other player
 			if (b->getCurrentPlayer() == 'w') {
-				cout << "Black wins!\n";
+				message = "Black wins!";
 				blackScore += 1;
 			} else {
-				cout << "White wins!\n";
+				message = "White wins!";
 				whiteScore += 1;
 			}
+			cout << message << endl;
 			// end the game
 			b = std::move(unique_ptr<Board>(nullptr));
 		} else if (cmd == "move") {
 			if (b.get() == nullptr || white.get() == nullptr) {
-				cout << "Please start a new game\n";
+				message = "Please start a new game";
+				cout << message << endl;
 			} else {
 				if (b->getCurrentPlayer() == 'w') {
 					if (white->playMove()) b->setCurrentPlayer('b');
@@ -159,16 +164,18 @@ int main() {
 							King* k = dynamic_cast<King*>(p);
 							if (k->inCheckmate()) {
 								if (k->getColour() == 'w') {
-									cout << "Checkmate! Black wins!\n";
+									message = "Checkmate! Black wins!";
 									blackScore ++;
 								} else {
-									cout << "Checkmate! White wins!\n";
+									message = "Checkmate! White wins!";
 									whiteScore ++;
 								}
+								cout << message << endl;
 								gameEnd = true;
 							} else if (k->inCheck()) {
-								cout << (k->getColour() == 'w' ? "White " : "Black ");
-								cout << "is in check.\n";
+								message = (k->getColour() == 'w' ? "White " : "Black ");
+								message += "is in check.";
+								cout << message << endl;
 							}
 						}
 					}
@@ -177,6 +184,7 @@ int main() {
 			}
 			// TODO - updating scores on checkmate/stalemate
 		}
+		w.display(b.get(), whiteScore, blackScore, message);
 	}
 	cout << "Final Score:\nWhite: " << whiteScore << "\nBlack: " << blackScore << '\n';
 }
