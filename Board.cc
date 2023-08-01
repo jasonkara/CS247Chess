@@ -212,5 +212,8 @@ bool Board::checkCopy(Coord start, Coord end, char colour) {
 		}
 	}
 	copy.movePiece(start, end, 'q');
-	return k->inCheck();
+	if (k) {
+		return k->inCheck();
+	}
+	return false;
 }
