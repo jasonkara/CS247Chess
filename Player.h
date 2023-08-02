@@ -11,6 +11,9 @@ class Player {
 	protected:
 		Board* board;
 		char colour;
+		void computerHelper(vector<pair<Coord, Coord>>& checkMoves,
+                   					vector<pair<Coord, Coord>>& captureMoves,
+                   					vector<pair<Coord, Coord>>& stdMoves);
 		Player(Board* b, char c);
 	public:
 		virtual bool playMove() = 0; // Pure virtual - this is an abstract class

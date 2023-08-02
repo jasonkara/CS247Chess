@@ -34,6 +34,18 @@ bool Piece::isUnderAttack() const {
     return false;
 }
 
+bool Piece::isUnderAttackBy(pair<Coord, Coord>& opponent) const {
+    vector<pair<Coord, Coord>> opponentMoves = board->getOpponentValidMoves();
+    for (auto opponentMove : opponentMoves) {
+        if (pos.x == opponentMove.second.x &&
+            pos.y == opponentMove.second.y) {
+                opponent = opponentMove;
+                return true;
+        }
+    }
+    return false;
+}
+
 vector<Coord> Piece::checkHelper(int x_diff, int y_diff) const {
     vector<Coord> validMoves;
     for (int direction: {-1, 1}) { // go backwards then forwards

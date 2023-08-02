@@ -31,6 +31,7 @@ class Piece {
 	public:
 		virtual vector<Coord> getValidMoves() = 0; // Pure virtual - this is an abstract class
 		bool isUnderAttack() const;
+		bool isUnderAttackBy(pair<Coord, Coord>& opponent) const;
 		Coord getPos() const;
 		void setPos(Coord coord);
 		char getColour() const;
